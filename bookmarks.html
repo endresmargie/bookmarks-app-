@@ -75,6 +75,48 @@
 
     input::placeholder { color: #adb5bd; }
 
+    select {
+      width: 100%;
+      padding: 0.65rem 0.9rem;
+      border: 1.5px solid #e0e0f0;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      color: #1a1a2e;
+      background: #fafafe;
+      outline: none;
+      cursor: pointer;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    select:focus {
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 3px rgba(79,70,229,0.12);
+    }
+
+    /* Category groups */
+    .category-group { margin-bottom: 1.5rem; }
+
+    .category-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: #adb5bd;
+      margin-bottom: 0.5rem;
+      padding-left: 0.25rem;
+    }
+
+    .bookmark-category-tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      background: #ede9ff;
+      color: #4f46e5;
+      border-radius: 999px;
+      padding: 0.15rem 0.55rem;
+      flex-shrink: 0;
+    }
+
     button.add-btn {
       padding: 0.65rem 1.25rem;
       background: #4f46e5;
@@ -286,6 +328,18 @@
     .clear-search:hover { color: #495057; background: #f0f0f5; }
     .clear-search.visible { display: block; }
 
+    /* Back nav */
+    .top-nav { margin-bottom: 1.25rem; }
+
+    .nav-home {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #4f46e5;
+      text-decoration: none;
+    }
+
+    .nav-home:hover { text-decoration: underline; }
+
     /* Toast */
     .toast {
       position: fixed;
@@ -312,13 +366,25 @@
 </head>
 <body>
   <div class="container">
+    <nav class="top-nav">
+      <a href="index.html" class="nav-home">&#8592; Home</a>
+    </nav>
     <h1>My <span>Bookmarks</span></h1>
 
     <div class="form-card">
       <h2>Add Bookmark</h2>
       <div class="form-row">
-        <input type="text" id="input-title" placeholder="Title (e.g. GitHub)" />
-        <input type="url"  id="input-url"   placeholder="URL (e.g. https://github.com)" />
+        <input type="text" id="input-title"    placeholder="Title (e.g. GitHub)" />
+        <input type="url"  id="input-url"      placeholder="URL (e.g. https://github.com)" />
+        <select id="input-category">
+          <option value="">Uncategorized</option>
+          <option value="Work">Work</option>
+          <option value="Social">Social</option>
+          <option value="News">News</option>
+          <option value="Tools">Tools</option>
+          <option value="Entertainment">Entertainment</option>
+          <option value="Other">Other</option>
+        </select>
         <button class="add-btn" onclick="addBookmark()">+ Add Bookmark</button>
       </div>
     </div>
@@ -388,28 +454,44 @@
         return;
       }
 
-      list.innerHTML = filtered.map((bm, i) => {
-        const realIndex = bookmarks.indexOf(bm);
-        const favicon = faviconUrl(bm.url);
-        const faviconHtml = favicon
-          ? `<img src="${favicon}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
-          : '';
-        const highlightedTitle = query
-          ? escHtml(bm.title).replace(new RegExp(`(${escRegex(query)})`, 'gi'), '<mark>$1</mark>')
-          : escHtml(bm.title);
-        return `
-          <div class="bookmark-item">
-            <div class="favicon">
-              ${faviconHtml}
-              <span class="favicon-fallback" ${favicon ? 'style="display:none"' : ''}>&#128279;</span>
-            </div>
-            <div class="bookmark-info">
-              <div class="bookmark-title">
-                <a href="${escHtml(bm.url)}" target="_blank" rel="noopener">${highlightedTitle}</a>
+      // Group by category
+      const groups = {};
+      filtered.forEach(bm => {
+        const cat = bm.category || 'Uncategorized';
+        if (!groups[cat]) groups[cat] = [];
+        groups[cat].push(bm);
+      });
+
+      list.innerHTML = Object.keys(groups).sort().map(cat => {
+        const items = groups[cat].map(bm => {
+          const realIndex = bookmarks.indexOf(bm);
+          const favicon = faviconUrl(bm.url);
+          const faviconHtml = favicon
+            ? `<img src="${favicon}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+            : '';
+          const highlightedTitle = query
+            ? escHtml(bm.title).replace(new RegExp(`(${escRegex(query)})`, 'gi'), '<mark>$1</mark>')
+            : escHtml(bm.title);
+          return `
+            <div class="bookmark-item">
+              <div class="favicon">
+                ${faviconHtml}
+                <span class="favicon-fallback" ${favicon ? 'style="display:none"' : ''}>&#128279;</span>
               </div>
-              <div class="bookmark-url">${escHtml(getHostname(bm.url) || bm.url)}</div>
-            </div>
-            <button class="delete-btn" onclick="deleteBookmark(${realIndex})" title="Delete">&#x2715;</button>
+              <div class="bookmark-info">
+                <div class="bookmark-title">
+                  <a href="${escHtml(bm.url)}" target="_blank" rel="noopener">${highlightedTitle}</a>
+                </div>
+                <div class="bookmark-url">${escHtml(getHostname(bm.url) || bm.url)}</div>
+              </div>
+              <button class="delete-btn" onclick="deleteBookmark(${realIndex})" title="Delete">&#x2715;</button>
+            </div>`;
+        }).join('');
+
+        return `
+          <div class="category-group">
+            <div class="category-label">${escHtml(cat)}</div>
+            ${items}
           </div>`;
       }).join('');
     }
@@ -423,25 +505,26 @@
     }
 
     function addBookmark() {
-      const titleEl = document.getElementById('input-title');
-      const urlEl   = document.getElementById('input-url');
+      const titleEl    = document.getElementById('input-title');
+      const urlEl      = document.getElementById('input-url');
+      const categoryEl = document.getElementById('input-category');
 
-      let url   = urlEl.value.trim();
-      let title = titleEl.value.trim();
+      let url      = urlEl.value.trim();
+      let title    = titleEl.value.trim();
+      const category = categoryEl.value || 'Uncategorized';
 
       if (!url) { urlEl.focus(); return; }
 
-      // Prepend https:// if missing
       if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
-
       if (!title) title = getHostname(url) || url;
 
       const bookmarks = load();
-      bookmarks.unshift({ title, url, added: Date.now() });
+      bookmarks.unshift({ title, url, category, added: Date.now() });
       save(bookmarks);
 
-      titleEl.value = '';
-      urlEl.value   = '';
+      titleEl.value    = '';
+      urlEl.value      = '';
+      categoryEl.value = '';
       urlEl.focus();
 
       render();
