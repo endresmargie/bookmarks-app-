@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f4f4f8;
+      color: #1a1a2e;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid #e9ecef;
+      border-radius: 16px;
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+    }
+
+    .card-header {
+      margin-bottom: 2rem;
+    }
+
+    .card-header h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 0.4rem;
+    }
+
+    .card-header h1 span { color: #4f46e5; }
+
+    .card-header p {
+      font-size: 0.9rem;
+      color: #6c757d;
+      line-height: 1.6;
+    }
+
+    /* Fields */
+    .field {
+      margin-bottom: 1.25rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #495057;
+      margin-bottom: 0.4rem;
+    }
+
+    label .required {
+      color: #4f46e5;
+      margin-left: 2px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea {
+      width: 100%;
+      padding: 0.7rem 0.9rem;
+      border: 1.5px solid #e0e0f0;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      color: #1a1a2e;
+      background: #fafafe;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 3px rgba(79,70,229,0.12);
+    }
+
+    input.error,
+    textarea.error {
+      border-color: #e03131;
+      box-shadow: 0 0 0 3px rgba(224,49,49,0.1);
+    }
+
+    input::placeholder,
+    textarea::placeholder { color: #adb5bd; }
+
+    textarea {
+      resize: vertical;
+      min-height: 130px;
+      line-height: 1.6;
+    }
+
+    .field-error {
+      font-size: 0.78rem;
+      color: #e03131;
+      margin-top: 0.35rem;
+      display: none;
+    }
+
+    .field-error.visible { display: block; }
+
+    /* Submit */
+    .submit-btn {
+      width: 100%;
+      padding: 0.8rem;
+      background: #4f46e5;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+      box-shadow: 0 4px 14px rgba(79,70,229,0.3);
+      margin-top: 0.5rem;
+    }
+
+    .submit-btn:hover  { background: #4338ca; box-shadow: 0 6px 18px rgba(79,70,229,0.4); }
+    .submit-btn:active { transform: scale(0.98); }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* Success state */
+    .success {
+      display: none;
+      text-align: center;
+      padding: 1.5rem 0 0.5rem;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .success-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .success h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .success p {
+      font-size: 0.9rem;
+      color: #6c757d;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .reset-btn {
+      background: none;
+      border: 1.5px solid #e0e0f0;
+      border-radius: 8px;
+      padding: 0.6rem 1.25rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #4f46e5;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .reset-btn:hover { background: #f0effe; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="card-header">
+      <h1>Get in <span>Touch</span></h1>
+      <p>Fill out the form below and we'll get back to you as soon as possible.</p>
+    </div>
+
+    <form id="contact-form" novalidate>
+      <div class="field">
+        <label for="name">Name <span class="required">*</span></label>
+        <input type="text" id="name" placeholder="Jane Smith" autocomplete="name" />
+        <div class="field-error" id="name-error">Please enter your name.</div>
+      </div>
+
+      <div class="field">
+        <label for="email">Email <span class="required">*</span></label>
+        <input type="email" id="email" placeholder="jane@example.com" autocomplete="email" />
+        <div class="field-error" id="email-error">Please enter a valid email address.</div>
+      </div>
+
+      <div class="field">
+        <label for="message">Message <span class="required">*</span></label>
+        <textarea id="message" placeholder="What's on your mind?"></textarea>
+        <div class="field-error" id="message-error">Please enter a message.</div>
+      </div>
+
+      <button type="submit" class="submit-btn">Send Message</button>
+    </form>
+
+    <div class="success" id="success">
+      <div class="success-icon">&#9989;</div>
+      <h2>Message Sent!</h2>
+      <p>Thanks for reaching out. We'll be in touch shortly.</p>
+      <button class="reset-btn" onclick="resetForm()">Send another message</button>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('contact-form');
+
+    function validate() {
+      const name    = document.getElementById('name');
+      const email   = document.getElementById('email');
+      const message = document.getElementById('message');
+      let valid = true;
+
+      // Name
+      if (!name.value.trim()) {
+        setError(name, 'name-error', true);
+        valid = false;
+      } else {
+        setError(name, 'name-error', false);
+      }
+
+      // Email
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim());
+      if (!emailOk) {
+        setError(email, 'email-error', true);
+        valid = false;
+      } else {
+        setError(email, 'email-error', false);
+      }
+
+      // Message
+      if (!message.value.trim()) {
+        setError(message, 'message-error', true);
+        valid = false;
+      } else {
+        setError(message, 'message-error', false);
+      }
+
+      return valid;
+    }
+
+    function setError(input, errorId, show) {
+      input.classList.toggle('error', show);
+      document.getElementById(errorId).classList.toggle('visible', show);
+    }
+
+    // Clear error on input
+    ['name', 'email', 'message'].forEach(id => {
+      document.getElementById(id).addEventListener('input', () => {
+        const el = document.getElementById(id);
+        setError(el, `${id}-error`, false);
+      });
+    });
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      if (!validate()) return;
+
+      const btn = form.querySelector('.submit-btn');
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+
+      // Simulate a short send delay, then show success
+      setTimeout(() => {
+        form.style.display = 'none';
+        document.getElementById('success').style.display = 'block';
+      }, 800);
+    });
+
+    function resetForm() {
+      form.reset();
+      form.style.display = 'block';
+      document.getElementById('success').style.display = 'none';
+      const btn = form.querySelector('.submit-btn');
+      btn.disabled = false;
+      btn.textContent = 'Send Message';
+    }
+  </script>
+</body>
+</html>

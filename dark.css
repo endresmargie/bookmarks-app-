@@ -27,6 +27,18 @@ html.dark .card p                    { color: #7a7a9a; }
 html.dark footer                     { color: #4a4a6a; border-top-color: #2a2a3d; }
 html.dark footer a                   { color: #818cf8; }
 
+html.dark .contact-section .sub     { color: #7a7a9a; }
+html.dark .form-card                 { background: #16161f; border-color: #2a2a3d; }
+html.dark .field label               { color: #9898b8; }
+html.dark .field input[type="text"],
+html.dark .field input[type="email"],
+html.dark .field textarea            { background: #0f0f17; border-color: #2a2a3d; color: #e2e2f0; }
+html.dark .field input:focus,
+html.dark .field textarea:focus      { border-color: #818cf8; box-shadow: 0 0 0 3px rgba(129,140,248,0.15); }
+html.dark .form-success p            { color: #7a7a9a; }
+html.dark .reset-btn                 { border-color: #2a2a3d; color: #818cf8; }
+html.dark .reset-btn:hover           { background: #1e1b3a; }
+
 @media (prefers-color-scheme: dark) {
   body         { background: #0f0f17; color: #e2e2f0; }
   nav          { background: #16161f; border-bottom-color: #2a2a3d; box-shadow: 0 1px 8px rgba(0,0,0,0.4); }
@@ -50,6 +62,18 @@ html.dark footer a                   { color: #818cf8; }
 
   footer                    { color: #4a4a6a; border-top-color: #2a2a3d; }
   footer a                  { color: #818cf8; }
+
+  .contact-section .sub     { color: #7a7a9a; }
+  .form-card                { background: #16161f; border-color: #2a2a3d; }
+  .field label               { color: #9898b8; }
+  .field input[type="text"],
+  .field input[type="email"],
+  .field textarea             { background: #0f0f17; border-color: #2a2a3d; color: #e2e2f0; }
+  .field input:focus,
+  .field textarea:focus       { border-color: #818cf8; box-shadow: 0 0 0 3px rgba(129,140,248,0.15); }
+  .form-success p             { color: #7a7a9a; }
+  .reset-btn                  { border-color: #2a2a3d; color: #818cf8; }
+  .reset-btn:hover            { background: #1e1b3a; }
 }
 
 /* Toggle button */
