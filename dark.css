@@ -1,0 +1,68 @@
+/* Dark mode — applied via .dark class on <html> (toggle button)
+   or automatically via OS preference (prefers-color-scheme) */
+
+html.dark body,
+@media (prefers-color-scheme: dark) {}
+
+html.dark body { background: #0f0f17; color: #e2e2f0; }
+html.dark nav  { background: #16161f; border-bottom-color: #2a2a3d; box-shadow: 0 1px 8px rgba(0,0,0,0.4); }
+html.dark .card { background: #16161f; border-color: #2a2a3d; }
+
+html.dark .nav-links a               { color: #9898b8; }
+html.dark .nav-links a:hover,
+html.dark .nav-links a.active        { background: #1e1b3a; color: #818cf8; }
+
+html.dark .hero h1                   { color: #e2e2f0; }
+html.dark .hero h1 span              { color: #818cf8; }
+html.dark .hero p                    { color: #7a7a9a; }
+
+html.dark .btn-primary               { box-shadow: 0 4px 14px rgba(79,70,229,0.5); }
+html.dark .btn-secondary             { background: #16161f; color: #818cf8; border-color: #2e2b52; }
+html.dark .btn-secondary:hover       { background: #1e1b3a; }
+
+html.dark .card:hover                { box-shadow: 0 12px 32px rgba(0,0,0,0.4); }
+html.dark .card h3                   { color: #e2e2f0; }
+html.dark .card p                    { color: #7a7a9a; }
+
+html.dark footer                     { color: #4a4a6a; border-top-color: #2a2a3d; }
+html.dark footer a                   { color: #818cf8; }
+
+@media (prefers-color-scheme: dark) {
+  body         { background: #0f0f17; color: #e2e2f0; }
+  nav          { background: #16161f; border-bottom-color: #2a2a3d; box-shadow: 0 1px 8px rgba(0,0,0,0.4); }
+  .card        { background: #16161f; border-color: #2a2a3d; }
+
+  .nav-links a              { color: #9898b8; }
+  .nav-links a:hover,
+  .nav-links a.active       { background: #1e1b3a; color: #818cf8; }
+
+  .hero h1                  { color: #e2e2f0; }
+  .hero h1 span             { color: #818cf8; }
+  .hero p                   { color: #7a7a9a; }
+
+  .btn-primary              { box-shadow: 0 4px 14px rgba(79,70,229,0.5); }
+  .btn-secondary            { background: #16161f; color: #818cf8; border-color: #2e2b52; }
+  .btn-secondary:hover      { background: #1e1b3a; }
+
+  .card:hover               { box-shadow: 0 12px 32px rgba(0,0,0,0.4); }
+  .card h3                  { color: #e2e2f0; }
+  .card p                   { color: #7a7a9a; }
+
+  footer                    { color: #4a4a6a; border-top-color: #2a2a3d; }
+  footer a                  { color: #818cf8; }
+}
+
+/* Toggle button */
+#dark-toggle {
+  background: none;
+  border: 1.5px solid #e9ecef;
+  border-radius: 8px;
+  padding: 0.4rem 0.75rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  line-height: 1;
+}
+#dark-toggle:hover              { background: #f0effe; border-color: #c7c3ff; }
+html.dark #dark-toggle          { border-color: #2a2a3d; color: #e2e2f0; }
+html.dark #dark-toggle:hover    { background: #1e1b3a; }

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Site</title>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #1a1a2e;
+      background: #f8f9fa;
+    }
+
+    /* Nav */
+    nav {
+      background: #ffffff;
+      border-bottom: 1px solid #e9ecef;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    .nav-logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #4f46e5;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #495057;
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background: #f0effe;
+      color: #4f46e5;
+    }
+
+    /* Hero */
+    .hero {
+      max-width: 720px;
+      margin: 6rem auto 4rem;
+      padding: 0 2rem;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -1px;
+      color: #1a1a2e;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero h1 span {
+      color: #4f46e5;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: #6c757d;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.75rem;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .btn-primary {
+      background: #4f46e5;
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(79, 70, 229, 0.45);
+    }
+
+    .btn-secondary {
+      background: #ffffff;
+      color: #4f46e5;
+      border: 1.5px solid #e0deff;
+      margin-left: 0.75rem;
+    }
+
+    .btn-secondary:hover {
+      background: #f0effe;
+      transform: translateY(-2px);
+    }
+
+    /* Cards */
+    .cards {
+      max-width: 960px;
+      margin: 0 auto 6rem;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #e9ecef;
+      border-radius: 14px;
+      padding: 2rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+    }
+
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: #1a1a2e;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      color: #6c757d;
+      line-height: 1.6;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.85rem;
+      color: #adb5bd;
+      border-top: 1px solid #e9ecef;
+    }
+
+    footer a {
+      color: #4f46e5;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+  <link rel="stylesheet" href="dark.css">
+</head>
+<body>
+
+  <nav>
+    <a href="#" class="nav-logo">MySite</a>
+    <ul class="nav-links">
+      <li><a href="#" class="active">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button id="dark-toggle" title="Toggle dark mode">&#9790;</button>
+  </nav>
+
+  <section class="hero">
+    <h1>Build something <span>beautiful</span> today.</h1>
+    <p>A clean starting point for your next project — modern design, zero dependencies, ready to go.</p>
+    <a href="#about" class="btn btn-primary">Get Started</a>
+    <a href="#contact" class="btn btn-secondary">Contact Us</a>
+  </section>
+
+  <section class="cards" id="about">
+    <div class="card">
+      <div class="card-icon">&#9889;</div>
+      <h3>Fast by Default</h3>
+      <p>No frameworks, no build steps. Pure HTML and CSS that loads instantly in any browser.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">&#127752;</div>
+      <h3>Clean Design</h3>
+      <p>Thoughtful spacing, subtle shadows, and a consistent color palette you can make your own.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">&#128241;</div>
+      <h3>Responsive</h3>
+      <p>Looks great on any screen size out of the box, from mobile phones to wide monitors.</p>
+    </div>
+  </section>
+
+  <footer id="contact">
+    &copy; 2024 MySite &mdash;
+    <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+  </footer>
+
+  <script>
+    const btn = document.getElementById('dark-toggle');
+    const root = document.documentElement;
+
+    // Restore saved preference
+    if (localStorage.getItem('theme') === 'dark') root.classList.add('dark');
+
+    btn.addEventListener('click', () => {
+      root.classList.toggle('dark');
+      localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
+</body>
+</html>
