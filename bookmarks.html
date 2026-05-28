@@ -268,6 +268,82 @@
 
     .delete-btn:hover { color: #e03131; background: #fff0f0; }
 
+    .edit-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #ced4da;
+      font-size: 1rem;
+      padding: 0.25rem;
+      border-radius: 6px;
+      transition: color 0.15s, background 0.15s;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .edit-btn:hover { color: #4f46e5; background: #f0effe; }
+
+    /* Inline edit form */
+    .edit-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      flex: 1;
+    }
+
+    .edit-form input,
+    .edit-form select {
+      width: 100%;
+      padding: 0.45rem 0.7rem;
+      border: 1.5px solid #e0e0f0;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-family: inherit;
+      color: #1a1a2e;
+      background: #fafafe;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .edit-form input:focus,
+    .edit-form select:focus {
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 3px rgba(79,70,229,0.12);
+    }
+
+    .edit-actions {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .save-btn {
+      padding: 0.4rem 0.9rem;
+      background: #4f46e5;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .save-btn:hover { background: #4338ca; }
+
+    .cancel-btn {
+      padding: 0.4rem 0.9rem;
+      background: none;
+      color: #6c757d;
+      border: 1.5px solid #e0e0f0;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .cancel-btn:hover { background: #f4f4f8; }
+
     mark {
       background: #ede9ff;
       color: #4f46e5;
@@ -472,19 +548,33 @@
           const highlightedTitle = query
             ? escHtml(bm.title).replace(new RegExp(`(${escRegex(query)})`, 'gi'), '<mark>$1</mark>')
             : escHtml(bm.title);
+          const cats = ['Uncategorized','Work','Social','News','Tools','Entertainment','Other'];
+          const catOptions = cats.map(c =>
+            `<option value="${c}" ${bm.category === c ? 'selected' : ''}>${c}</option>`
+          ).join('');
           return `
-            <div class="bookmark-item">
+            <div class="bookmark-item" id="item-${realIndex}">
               <div class="favicon">
                 ${faviconHtml}
                 <span class="favicon-fallback" ${favicon ? 'style="display:none"' : ''}>&#128279;</span>
               </div>
-              <div class="bookmark-info">
+              <div class="bookmark-info" id="view-${realIndex}">
                 <div class="bookmark-title">
                   <a href="${escHtml(bm.url)}" target="_blank" rel="noopener">${highlightedTitle}</a>
                 </div>
                 <div class="bookmark-url">${escHtml(getHostname(bm.url) || bm.url)}</div>
               </div>
-              <button class="delete-btn" onclick="deleteBookmark(${realIndex})" title="Delete">&#x2715;</button>
+              <div class="edit-form" id="edit-${realIndex}" style="display:none">
+                <input type="text"  id="edit-title-${realIndex}"    value="${escHtml(bm.title)}" placeholder="Title" />
+                <input type="url"   id="edit-url-${realIndex}"      value="${escHtml(bm.url)}"   placeholder="URL" />
+                <select            id="edit-category-${realIndex}">${catOptions}</select>
+                <div class="edit-actions">
+                  <button class="save-btn"   onclick="saveBookmark(${realIndex})">Save</button>
+                  <button class="cancel-btn" onclick="cancelEdit(${realIndex})">Cancel</button>
+                </div>
+              </div>
+              <button class="edit-btn"   id="edit-btn-${realIndex}"   onclick="startEdit(${realIndex})"        title="Edit">&#9998;</button>
+              <button class="delete-btn" id="delete-btn-${realIndex}" onclick="deleteBookmark(${realIndex})"   title="Delete">&#x2715;</button>
             </div>`;
         }).join('');
 
@@ -529,6 +619,37 @@
 
       render();
       showToast('Bookmark added!');
+    }
+
+    function startEdit(index) {
+      document.getElementById(`view-${index}`).style.display = 'none';
+      document.getElementById(`edit-${index}`).style.display = 'flex';
+      document.getElementById(`edit-btn-${index}`).style.display = 'none';
+      document.getElementById(`delete-btn-${index}`).style.display = 'none';
+      document.getElementById(`edit-title-${index}`).focus();
+    }
+
+    function cancelEdit(index) {
+      document.getElementById(`view-${index}`).style.display = 'block';
+      document.getElementById(`edit-${index}`).style.display = 'none';
+      document.getElementById(`edit-btn-${index}`).style.display = '';
+      document.getElementById(`delete-btn-${index}`).style.display = '';
+    }
+
+    function saveBookmark(index) {
+      let title    = document.getElementById(`edit-title-${index}`).value.trim();
+      let url      = document.getElementById(`edit-url-${index}`).value.trim();
+      const category = document.getElementById(`edit-category-${index}`).value;
+
+      if (!url) return;
+      if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+      if (!title) title = getHostname(url) || url;
+
+      const bookmarks = load();
+      bookmarks[index] = { ...bookmarks[index], title, url, category };
+      save(bookmarks);
+      render();
+      showToast('Bookmark updated!');
     }
 
     function deleteBookmark(index) {
